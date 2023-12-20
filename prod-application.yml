@@ -1,0 +1,53 @@
+server:
+  port: 8081
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+    show-sql: true
+
+logging:
+  level:
+    com.ep.springbootlogging: info
+  config: classpath:logback.xml
+jwt:
+  header: Authorization
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  access-token-validity-in-seconds: 180
+  refresh-token-validity-in-seconds: 604800
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAWHMDCVMETU6SMAG4
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: novart-bucket
+    stack:
+      auto: false
+    cdn : https://dkw6ri3c2y0qi.cloudfront.net
+
+---
+spring:
+  config:
+    activate:
+      on-profile: set1
+server:
+  port: 8081
+
+---
+spring:
+  config:
+    activate:
+      on-profile: set2
+server:
+  port: 8082
