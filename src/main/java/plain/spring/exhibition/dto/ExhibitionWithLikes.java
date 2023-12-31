@@ -14,5 +14,5 @@ import plain.spring.exhibition.domain.Exhibition;
 @Builder
 public class ExhibitionWithLikes {
     private Exhibition exhibition;
-    private boolean isLiked;
+    private boolean isLikes;
 }

@@ -22,7 +22,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final ListPath<plain.spring.art.domain.Art, plain.spring.art.domain.QArt> arts = this.<plain.spring.art.domain.Art, plain.spring.art.domain.QArt>createList("arts", plain.spring.art.domain.Art.class, plain.spring.art.domain.QArt.class, PathInits.DIRECT2);
 
-    public final StringPath backgroundImgUrl = createString("backgroundImgUrl");
+    public final StringPath backgroundImageUrl = createString("backgroundImageUrl");
 
     public final StringPath deviceToken = createString("deviceToken");
 
@@ -38,7 +38,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath openChatUrl = createString("openChatUrl");
 
-    public final StringPath profileImgUrl = createString("profileImgUrl");
+    public final StringPath profileImageUrl = createString("profileImageUrl");
 
     public final EnumPath<Role> role = createEnum("role", Role.class);
 

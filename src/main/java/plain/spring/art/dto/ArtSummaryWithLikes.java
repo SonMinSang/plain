@@ -18,9 +18,9 @@ public class ArtSummaryWithLikes {
     @Schema(description = "작품 이름")
     private String name;
     @Schema(description = "작품 대표 이미지 url")
-    private List<ImageUrl> thumbnailImage;
+    private List<ImageUrl> thumbnailImageUrl;
     @Schema(description = "작가 닉네임")
-    private String artistNickname;
+    private String nickname;
     @Schema(description = "작품 카테고리")
     private String category;
     @Schema(description = "좋아요 여부")
@@ -29,8 +29,8 @@ public class ArtSummaryWithLikes {
     public ArtSummaryWithLikes(ArtWithLikes artWithLikes){
         this.id = artWithLikes.getArt().getId();
         this.name = artWithLikes.getArt().getName();
-        this.thumbnailImage = artWithLikes.getArt().getThumbNailImageUrls().stream().map(a -> new ImageUrl(a)).collect(Collectors.toList());
-        this.artistNickname = artWithLikes.getArt().getArtist().getNickname();
+        this.thumbnailImageUrl = artWithLikes.getArt().getThumbNailImageUrls().stream().map(a -> new ImageUrl(a)).collect(Collectors.toList());
+        this.nickname = artWithLikes.getArt().getArtist().getNickname();
         this.category = artWithLikes.getArt().getCategory();
         this.isLikes = artWithLikes.isLikes();
     }

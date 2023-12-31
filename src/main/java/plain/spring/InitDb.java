@@ -96,16 +96,18 @@ public class InitDb {
                     .nickname("방태림")
                     .email("sms7624@gmail.com")
                     .followedCount(10)
-                    .profileImgUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%B0%A9%ED%83%9C%EB%A6%BC_%ED%94%84%EB%A1%9C%ED%95%84.png")
-                    .backgroundImgUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%B0%A9%ED%83%9C%EB%A6%BC_%EB%B0%B0%EA%B2%BD.png")
+                    .deviceToken("fvVC1fsKNUwppiTKf_2F1M:APA91bHA-QMSMCUxQHIGFmRHlueb_LeC-fzPTMy30XGizsgJJ_spvNW2S1ZUz_BTlBqWpGCduBfa6zD9Hv_ow30Nx5njyhnErbHWXMRckAVoYTG9wR8gpk_CggO3xlQv3h3npPneZ7T2")
+                    .profileImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%B0%A9%ED%83%9C%EB%A6%BC_%ED%94%84%EB%A1%9C%ED%95%84.png")
+                    .backgroundImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%B0%A9%ED%83%9C%EB%A6%BC_%EB%B0%B0%EA%B2%BD.png")
                     .build();
             userRepository.save(user1);
             User user2 = User.builder()
                     .nickname("김민지")
                     .email("sms7624@gmail.com")
                     .followedCount(9)
-                    .profileImgUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EA%B9%80%EB%AF%BC%EC%A7%80_%ED%94%84%EB%A1%9C%ED%95%84.png")
-                    .backgroundImgUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EA%B9%80%EB%AF%BC%EC%A7%80_%EB%B0%B0%EA%B2%BD.png")
+                    .profileImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EA%B9%80%EB%AF%BC%EC%A7%80_%ED%94%84%EB%A1%9C%ED%95%84.png")
+                    .deviceToken("fvVC1fsKNUwppiTKf_2F1M:APA91bHA-QMSMCUxQHIGFmRHlueb_LeC-fzPTMy30XGizsgJJ_spvNW2S1ZUz_BTlBqWpGCduBfa6zD9Hv_ow30Nx5njyhnErbHWXMRckAVoYTG9wR8gpk_CggO3xlQv3h3npPneZ7T2")
+                    .backgroundImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EA%B9%80%EB%AF%BC%EC%A7%80_%EB%B0%B0%EA%B2%BD.png")
                     .build();
             userRepository.save(user2);
             Tag tag1 = tagRepository.findByName("감성").orElse(null);

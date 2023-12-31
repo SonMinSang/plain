@@ -26,8 +26,8 @@ public class User {
     private String oauthId;
     @Enumerated(EnumType.STRING)
     private Role role;
-    private String profileImgUrl;
-    private String backgroundImgUrl;
+    private String profileImageUrl;
+    private String backgroundImageUrl;
     private String email;
     private String openChatUrl;
     @Builder.Default
@@ -61,8 +61,8 @@ public class User {
 
     public void editUserInfo(UserInfoEdit userInfoEdit) {
         this.nickname = userInfoEdit.getNickname();
-        this.profileImgUrl = userInfoEdit.getProfileImgUrl();
-        this.backgroundImgUrl = userInfoEdit.getBackgroundImgUrl();
+        this.profileImageUrl = userInfoEdit.getProfileImageUrl();
+        this.backgroundImageUrl = userInfoEdit.getBackgroundImageUrl();
         this.email = userInfoEdit.getEmail();
         this.openChatUrl = userInfoEdit.getOpenChatUrl();
     }

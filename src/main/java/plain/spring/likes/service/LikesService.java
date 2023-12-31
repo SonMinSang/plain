@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import plain.spring.art.domain.Art;
 import plain.spring.art.repository.ArtRepository;
+import plain.spring.commons.fcm.FCMNotification;
 import plain.spring.commons.util.SecurityUtil;
 import plain.spring.commons.fcm.FCMNotificationRequest;
 import plain.spring.commons.fcm.FCMNotificationService;
 import plain.spring.likes.domain.Likes;
 import plain.spring.likes.repository.LikesRepository;
 import plain.spring.notification.domain.Notification;
-import plain.spring.notification.dto.NotificationResponse;
 import plain.spring.notification.repository.NotificationRepository;
 import plain.spring.notification.domain.NotificationType;
 import plain.spring.user.domain.User;
@@ -52,11 +52,11 @@ public class LikesService {
                 .art(art)
                 .build();
         notificationRepository.save(notification);
-        NotificationResponse response = new NotificationResponse(notification);
+        FCMNotification response = new FCMNotification(notification);
 
         FCMNotificationRequest request = FCMNotificationRequest.builder()
                 .deviceToken(art.getArtist().getDeviceToken())
-                .image(user.getProfileImgUrl())
+                .image(user.getProfileImageUrl())
                 .body(notification.getBody())
                 .data(objectMapper.registerModule(new JavaTimeModule()).convertValue(response, Map.class))
                 .build();

@@ -16,13 +16,13 @@ public class ExhibitionArtistSummary {
     @Schema(description = "유저 id")
     private Long id;
     @Schema(description = "유저 프로필 이미지 url")
-    private String profileImgUrl;
+    private String profileImageUrl;
     @Schema(description = "유저 닉네임")
     private String nickname;
     private String job;
     public ExhibitionArtistSummary(User user){
         this.id = user.getId();
-        this.profileImgUrl = user.getProfileImgUrl();
+        this.profileImageUrl = user.getProfileImageUrl();
         this.nickname = user.getNickname();
         if (user.getUserJobs() == null || user.getUserJobs().isEmpty())
             this.job = "";

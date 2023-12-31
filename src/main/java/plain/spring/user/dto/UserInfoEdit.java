@@ -15,9 +15,9 @@ public class UserInfoEdit {
     @Schema(description = "유저 닉네임")
     private String nickname;
     @Schema(description = "유저 프로필 이미지 url")
-    private String profileImgUrl;
+    private String profileImageUrl;
     @Schema(description = "유저 배경 이미지 url")
-    private String backgroundImgUrl;
+    private String backgroundImageUrl;
     @Schema(description = "유저 태그 리스트")
     private List<String> tags;
     @Schema(description = "유저 직업 리스트")
@@ -26,7 +26,4 @@ public class UserInfoEdit {
     private String email;
     @Schema(description = "카카오톡 오픈 채팅 url")
     private String openChatUrl;
-
-
-
 }

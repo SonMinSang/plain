@@ -19,9 +19,9 @@ public class CommentDisplay {
     @Schema(description = "유저 id")
     private Long userId;
     @Schema(description = "유저 프로필 이미지 url")
-    private String userProfileimgUrl;
+    private String profileImageUrl;
     @Schema(description = "유저 닉네임")
-    private String userNickname;
+    private String nickname;
 
     @Schema(description = "댓글 내용")
     private String content;
@@ -32,8 +32,8 @@ public class CommentDisplay {
     public CommentDisplay(Comment comment){
         this.id = comment.getId();
         this.userId = comment.getUser().getId();
-        this.userProfileimgUrl = comment.getUser().getProfileImgUrl();
-        this.userNickname = comment.getUser().getNickname();
+        this.profileImageUrl = comment.getUser().getProfileImageUrl();
+        this.nickname = comment.getUser().getNickname();
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedAt();
     }
@@ -41,8 +41,8 @@ public class CommentDisplay {
     public CommentDisplay(ExhibitionComment comment){
         this.id = comment.getId();
         this.userId = comment.getUser().getId();
-        this.userProfileimgUrl = comment.getUser().getProfileImgUrl();
-        this.userNickname = comment.getUser().getNickname();
+        this.profileImageUrl = comment.getUser().getProfileImageUrl();
+        this.nickname = comment.getUser().getNickname();
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedAt();
     }

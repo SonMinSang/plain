@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import plain.spring.art.domain.Art;
 import plain.spring.art.dto.ArtDetail;
 import plain.spring.art.dto.ArtPost;
 import plain.spring.art.dto.ArtSummary;
@@ -51,8 +50,8 @@ public class ArtController {
             }
     )
     @PostMapping
-    public ResponseEntity<ArtDetail> uploadArt(@RequestBody ArtPost artPost){
-        ArtDetail result = artService.uploadArt(artPost);
+    public ResponseEntity<ArtSummary> uploadArt(@RequestBody ArtPost artPost){
+        ArtSummary result = artService.uploadArt(artPost);
         return ResponseEntity.ok(result);
     }
 
@@ -104,7 +103,7 @@ public class ArtController {
     }
 
 
-    @Operation(summary = "작가 상세페이지 관련된 작품",
+    @Operation(summary = "작품 상세페이지 관련된 작품",
             parameters = {
                     @Parameter(in = PATH, name = "artId",
                             required = true, description = "현재 보고 있는 작품 id")

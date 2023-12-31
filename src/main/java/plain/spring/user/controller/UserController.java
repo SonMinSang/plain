@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import plain.spring.art.dto.ArtSummary;
 import plain.spring.commons.exception.CustomException;
 import plain.spring.commons.util.SecurityUtil;
 import plain.spring.notification.dto.DeviceToken;
@@ -117,8 +118,8 @@ public class UserController {
                             required = true, description = "유저 Id")
             })
     @GetMapping("/{userId}/likes")
-    public ResponseEntity<List<ArtistPageArt>> getUserLikes(@PathVariable Long userId){
-        List<ArtistPageArt> result = userService.getUserLikes(userId);
+    public ResponseEntity<List<ArtSummary>> getUserLikes(@PathVariable Long userId){
+        List<ArtSummary> result = userService.getUserLikes(userId);
         return ResponseEntity.ok(result);
     }
 
@@ -128,8 +129,8 @@ public class UserController {
                             required = true, description = "유저 Id")
             })
     @GetMapping("/{userId}/arts")
-    public ResponseEntity<List<ArtistPageArt>> getUserArts(@PathVariable Long userId){
-        List<ArtistPageArt> result = userService.getUserArts(userId);
+    public ResponseEntity<List<ArtSummary>> getUserArts(@PathVariable Long userId){
+        List<ArtSummary> result = userService.getUserArts(userId);
         return ResponseEntity.ok(result);
     }
 }

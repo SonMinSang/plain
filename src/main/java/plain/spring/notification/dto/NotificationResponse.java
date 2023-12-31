@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-@Schema(description = "전시내 작품 정보")
+@Schema(description = "알림")
 @AllArgsConstructor
 @Builder
 public class NotificationResponse {
     private Long id;
     private NotificationType type;
     private NotificationStatus status;
-    private String imgUrl;
+    private String imageUrl;
     private Long senderId;
     private Long artId;
     private String message;
@@ -31,7 +31,7 @@ public class NotificationResponse {
         this.status = notification.getStatus();
         this.message = notification.getBody();
         if (this.type != NotificationType.WELCOME){
-            this.imgUrl = notification.getSender().getProfileImgUrl();
+            this.imageUrl = notification.getSender().getProfileImageUrl();
             this.senderId = notification.getSender().getId();
         }
         if (this.type == NotificationType.LIKES || this.type == NotificationType.COMMENT){

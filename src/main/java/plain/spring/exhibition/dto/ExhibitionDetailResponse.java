@@ -28,7 +28,7 @@ public class ExhibitionDetailResponse {
     private List<ExhibitionArtistSummary> artists = new ArrayList<>();
     private List<ExhibitionArtDetail> arts = new ArrayList<>();
     private int likesCount;
-    private boolean isLiked;
+    private boolean isLikes;
     private int commentCount;
 
     public ExhibitionDetailResponse(ExhibitionWithLikes exhibition, Set<Long> userLists){
@@ -42,7 +42,7 @@ public class ExhibitionDetailResponse {
         this.artists = exhibition.getExhibition().getArtists().stream().map(a -> new ExhibitionArtistSummary(a.getUser())).collect(Collectors.toList());
         this.likesCount = exhibition.getExhibition().getLikesCount();
         this.commentCount = exhibition.getExhibition().getCommentCount();
-        this.isLiked = exhibition.isLiked();
+        this.isLikes = exhibition.isLikes();
         this.arts = exhibition.getExhibition().getArts().stream().map(a -> new ExhibitionArtDetail(a, userLists)).collect(Collectors.toList());
     }
     public ExhibitionDetailResponse(ExhibitionWithLikes exhibition){
@@ -56,7 +56,7 @@ public class ExhibitionDetailResponse {
         this.artists = exhibition.getExhibition().getArtists().stream().map(a -> new ExhibitionArtistSummary(a.getUser())).collect(Collectors.toList());
         this.likesCount = exhibition.getExhibition().getLikesCount();
         this.commentCount = exhibition.getExhibition().getCommentCount();
-        this.isLiked = exhibition.isLiked();
+        this.isLikes = exhibition.isLikes();
         this.arts = exhibition.getExhibition().getArts().stream().map(a -> new ExhibitionArtDetail(a)).collect(Collectors.toList());
     }
 }

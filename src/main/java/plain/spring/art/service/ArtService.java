@@ -15,6 +15,7 @@ import plain.spring.art.domain.Art;
 import plain.spring.arttag.domain.ArtTag;
 import plain.spring.arttag.repository.ArtTagRepository;
 import plain.spring.commons.exception.CustomException;
+import plain.spring.commons.fcm.FCMNotification;
 import plain.spring.commons.util.SecurityUtil;
 import plain.spring.commons.fcm.FCMNotificationRequest;
 import plain.spring.commons.fcm.FCMNotificationService;
@@ -23,7 +24,6 @@ import plain.spring.follow.repository.FollowRepository;
 import plain.spring.image.domain.ArtImage;
 import plain.spring.image.repository.ArtImageRepository;
 import plain.spring.notification.domain.Notification;
-import plain.spring.notification.dto.NotificationResponse;
 import plain.spring.notification.repository.NotificationRepository;
 import plain.spring.notification.domain.NotificationType;
 import plain.spring.tag.service.TagService;
@@ -53,7 +53,7 @@ public class ArtService {
     private final NotificationRepository notificationRepository;
     private final FCMNotificationService fcmNotificationService;
 
-    public ArtDetail uploadArt(ArtPost artPost){
+    public ArtSummary uploadArt(ArtPost artPost){
         String userId = SecurityUtil.getId().orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         User user = userRepository.findById(Long.parseLong(userId)).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         Art art = Art.builder()
@@ -85,10 +85,10 @@ public class ArtService {
                     .art(art)
                     .build();
             notifications.add(notification);
-            NotificationResponse response = new NotificationResponse(notification);
+            FCMNotification response = new FCMNotification(notification);
             FCMNotificationRequest request = FCMNotificationRequest.builder()
                     .deviceToken(art.getArtist().getDeviceToken())
-                    .image(user.getProfileImgUrl())
+                    .image(user.getProfileImageUrl())
                     .body(notification.getBody())
                     .data(objectMapper.registerModule(new JavaTimeModule()).convertValue(response, Map.class))
                     .build();
@@ -96,8 +96,7 @@ public class ArtService {
         }
         notificationRepository.saveAll(notifications);
         fcmNotificationService.sendNotificationsByToken(requests);
-
-        return new ArtDetail(art);
+        return new ArtSummary(art);
     }
     public ArtSummary updateArt(Long artId, ArtPost artPost){
         String userId = SecurityUtil.getId().orElseThrow(() -> new CustomException(USER_NOT_FOUND));

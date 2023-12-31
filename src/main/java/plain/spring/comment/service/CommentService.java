@@ -11,11 +11,11 @@ import plain.spring.comment.dto.CommentDisplay;
 import plain.spring.comment.dto.CommentPost;
 import plain.spring.comment.domain.Comment;
 import plain.spring.comment.repository.CommentRepository;
+import plain.spring.commons.fcm.FCMNotification;
 import plain.spring.commons.util.SecurityUtil;
 import plain.spring.commons.fcm.FCMNotificationRequest;
 import plain.spring.commons.fcm.FCMNotificationService;
 import plain.spring.notification.domain.Notification;
-import plain.spring.notification.dto.NotificationResponse;
 import plain.spring.notification.repository.NotificationRepository;
 import plain.spring.notification.domain.NotificationType;
 import plain.spring.user.domain.User;
@@ -59,10 +59,10 @@ public class CommentService {
                 .art(art)
                 .build();
         notificationRepository.save(notification);
-        NotificationResponse response = new NotificationResponse(notification);
+        FCMNotification response = new FCMNotification(notification);
         FCMNotificationRequest request = FCMNotificationRequest.builder()
                 .deviceToken(art.getArtist().getDeviceToken())
-                .image(user.getProfileImgUrl())
+                .image(user.getProfileImageUrl())
                 .body(notification.getBody())
                 .data(objectMapper.registerModule(new JavaTimeModule()).convertValue(response, Map.class))
                 .build();

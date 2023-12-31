@@ -1,10 +1,10 @@
 package plain.spring.follow.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import plain.spring.commons.fcm.FCMNotification;
 import plain.spring.commons.util.SecurityUtil;
 import plain.spring.commons.fcm.FCMNotificationRequest;
 import plain.spring.commons.fcm.FCMNotificationService;
@@ -45,13 +45,13 @@ public class FollowService {
                     .sender(follower)
                     .build();
             notificationRepository.save(notification);
-            NotificationResponse response = new NotificationResponse(notification);
+            FCMNotification response = new FCMNotification(notification);
 
             FCMNotificationRequest request = FCMNotificationRequest.builder()
                     .deviceToken(following.getDeviceToken())
-                    .image(follower.getProfileImgUrl())
+                    .image(follower.getProfileImageUrl())
                     .body(notification.getBody())
-                    .data(objectMapper.registerModule(new JavaTimeModule()).convertValue(response, Map.class))
+                    .data(objectMapper.convertValue(response, Map.class))
                     .build();
             fcmNotificationService.sendNotificationByToken(request);
         }

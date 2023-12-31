@@ -14,6 +14,6 @@ public class ExhibitionSummary {
     private String posterImageUrl;
     private String description;
     private int likesCount;
-    private boolean isLiked;
+    private boolean isLikes;
     private int commentCount;
 }

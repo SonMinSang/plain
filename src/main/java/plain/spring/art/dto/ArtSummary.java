@@ -19,12 +19,19 @@ public class ArtSummary {
     @Schema(description = "작품 대표 이미지 url")
     private String thumbnailImageUrl;
     @Schema(description = "작가 닉네임")
-    private String artistNickname;
+    private String nickname;
 
     public ArtSummary(Art art){
         this.id = art.getId();
         this.name = art.getName();
         this.thumbnailImageUrl = art.getThumbNailImageUrls().get(0).getUrl();
-        this.artistNickname = art.getArtist().getNickname();
+        this.nickname = art.getArtist().getNickname();
+    }
+
+    public ArtSummary(Art art, String nickname){
+        this.id = art.getId();
+        this.name = art.getName();
+        this.thumbnailImageUrl = art.getThumbNailImageUrls().get(0).getUrl();
+        this.nickname = nickname;
     }
 }

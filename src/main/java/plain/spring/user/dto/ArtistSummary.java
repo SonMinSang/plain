@@ -14,15 +14,15 @@ public class ArtistSummary {
     @Schema(description = "유저 id")
     private Long id;
     @Schema(description = "유저 프로필 이미지 url")
-    private String profileImgUrl;
+    private String profileImageUrl;
     @Schema(description = "유저 배경 이미지 url")
-    private String backgroundImgUrl;
+    private String backgroundImageUrl;
     @Schema(description = "유저 닉네임")
     private String nickname;
     public ArtistSummary(User user){
         this.id = user.getId();
-        this.profileImgUrl = user.getProfileImgUrl();
-        this.backgroundImgUrl = user.getBackgroundImgUrl();
+        this.profileImageUrl = user.getProfileImageUrl();
+        this.backgroundImageUrl = user.getBackgroundImageUrl();
         this.nickname = user.getNickname();
     }
 }

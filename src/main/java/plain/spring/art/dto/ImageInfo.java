@@ -16,12 +16,7 @@ public class ImageInfo {
     private String url;
     private int width;
     private int height;
-    public ImageInfo(ArtImage artImage){
 
-        this.url = artImage.getUrl();
-        this.width = artImage.getWidth();
-        this.height = artImage.getHeight();
-    }
     public ImageInfo(ExhibitionArtImage exhibitionArtImage){
         this.url = exhibitionArtImage.getUrl();
         this.width = exhibitionArtImage.getWidth();

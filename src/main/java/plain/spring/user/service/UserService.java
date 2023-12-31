@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import plain.spring.art.domain.Art;
+import plain.spring.art.dto.ArtSummary;
 import plain.spring.art.repository.ArtRepository;
 import plain.spring.commons.exception.CustomException;
 import plain.spring.commons.exception.ErrorCode;
@@ -18,7 +19,6 @@ import plain.spring.likes.domain.Likes;
 import plain.spring.likes.repository.LikesRepository;
 import plain.spring.notification.dto.DeviceToken;
 import plain.spring.tag.service.TagService;
-import plain.spring.user.dto.ArtistPageArt;
 import plain.spring.user.domain.User;
 import plain.spring.user.repository.UserRepository;
 import plain.spring.user.dto.Nickname;
@@ -68,10 +68,10 @@ public class UserService {
         user.setUserJobs(userJobs);
         return new UserInfo(user);
     }
-    public List<ArtistPageArt> getUserArts(Long userId){
+    public List<ArtSummary> getUserArts(Long userId){
         User user = userRepository.findOneWithArtsById(userId).orElseThrow();
         List<Art> arts = user.getArts();
-        List<ArtistPageArt> result = arts.stream().map(a -> new ArtistPageArt(a)).collect(Collectors.toList());
+        List<ArtSummary> result = arts.stream().map(a -> new ArtSummary(a, user.getNickname())).collect(Collectors.toList());
         return result;
     }
     public List<ArtistSummary> getUserFollow(Long userId){
@@ -84,16 +84,16 @@ public class UserService {
         List<ArtistSummary> results = follows.stream().map(f -> new ArtistSummary(f.getFollowing())).collect(Collectors.toList());
         return results;
     }
-    public List<ArtistPageArt> getUserLikes(Long userId){
+    public List<ArtSummary> getUserLikes(Long userId){
         List<Likes> likes  = likesRepository.findLikesWithArtByUserId(userId);
         if (likes.size() == 0){
             List<Art> arts = artRepository.findAllOrderByLikesCountDescWithArtist();
-            List<ArtistPageArt> result = arts.stream()
-                    .map(r -> new ArtistPageArt(r, r.getArtist().getNickname()))
+            List<ArtSummary> result = arts.stream()
+                    .map(r -> new ArtSummary(r))
                     .collect(Collectors.toList());
             return result;
         }
-        List<ArtistPageArt> result = likes.stream().map(l -> new ArtistPageArt(l.getArt(), l.getArt().getArtist().getNickname())).collect(Collectors.toList());
+        List<ArtSummary> result = likes.stream().map(l -> new ArtSummary(l.getArt(), l.getArt().getArtist().getNickname())).collect(Collectors.toList());
         return result;
     }
     public Slice<ArtistSummary> getArtistsByQueryAndCategory(String query, String category, int pageNo){
@@ -118,4 +118,6 @@ public class UserService {
         User user = userRepository.findById(Long.parseLong(userId)).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         user.editDeviceToken(deviceToken.getDeviceToken());
     }
+
+
 }

@@ -10,7 +10,7 @@ import plain.spring.art.domain.Art;
 @AllArgsConstructor
 public class ArtWithFollowAndLikes {
     private Art art;
-    private boolean isLiked;
+    private boolean isLikes;
     private boolean isFollowing;
 
 }

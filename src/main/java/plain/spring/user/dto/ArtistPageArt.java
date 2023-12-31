@@ -16,20 +16,20 @@ public class ArtistPageArt {
     @Schema(description = "작품 이름")
     private String name;
     @Schema(description = "작품 대표 이미지 url")
-    private String thumbnailImgUrl;
+    private String thumbnailImageUrl;
     @Schema(description = "작가 이름")
-    private String artistName;
+    private String nickname;
 
     public ArtistPageArt(Art art){
         this.id = art.getId();
         this.name = art.getName();
-        this.thumbnailImgUrl = art.getThumbNailImageUrls().get(0).getUrl();
+        this.thumbnailImageUrl = art.getThumbNailImageUrls().get(0).getUrl();
     }
-    public ArtistPageArt(Art art, String artistName){
+    public ArtistPageArt(Art art, String nickname){
         this.id = art.getId();
         this.name = art.getName();
-        this.thumbnailImgUrl = art.getThumbNailImageUrls().get(0).getUrl();
-        this.artistName = artistName;
+        this.thumbnailImageUrl = art.getThumbNailImageUrls().get(0).getUrl();
+        this.nickname = nickname;
 
     }
 }
