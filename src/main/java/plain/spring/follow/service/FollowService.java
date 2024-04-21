@@ -31,7 +31,7 @@ public class FollowService {
         Long followerId = Long.valueOf(SecurityUtil.getId().orElseThrow());
         User follower = userRepository.findById(followerId).orElseThrow();
         User following = userRepository.findById(userId).orElseThrow();
-        Follow follow = followRepository.findByFollowerAndFollowing(follower, following).orElse(null);
+        Follow follow = followRepository.findByFollowerAndFollowing(follower.getId(), following.getId()).orElse(null);
         if (follow == null){
             followRepository.save(Follow.builder()
                     .follower(follower)
@@ -45,15 +45,16 @@ public class FollowService {
                     .sender(follower)
                     .build();
             notificationRepository.save(notification);
-            FCMNotification response = new FCMNotification(notification);
+            if (following.getDeviceToken() != null){
+                FCMNotification response = new FCMNotification(notification);
 
-            FCMNotificationRequest request = FCMNotificationRequest.builder()
-                    .deviceToken(following.getDeviceToken())
-                    .image(follower.getProfileImageUrl())
-                    .body(notification.getBody())
-                    .data(objectMapper.convertValue(response, Map.class))
-                    .build();
-            fcmNotificationService.sendNotificationByToken(request);
+                FCMNotificationRequest request = FCMNotificationRequest.builder()
+                        .deviceToken(following.getDeviceToken())
+                        .body(notification.getBody())
+                        .data(objectMapper.convertValue(response, Map.class))
+                        .build();
+                fcmNotificationService.sendNotificationByToken(request);
+            }
         }
 
     }
@@ -61,7 +62,7 @@ public class FollowService {
         Long followerId = Long.valueOf(SecurityUtil.getId().orElseThrow());
         User follower = userRepository.findById(followerId).orElseThrow();
         User following = userRepository.findById(userId).orElseThrow();
-        Follow follow = followRepository.findByFollowerAndFollowing(follower, following).orElse(null);
+        Follow follow = followRepository.findByFollowerAndFollowing(follower.getId(), following.getId()).orElse(null);
         if (follow != null){
             followRepository.delete(follow);
             following.unfollowed();

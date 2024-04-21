@@ -32,11 +32,12 @@ public class CustomExhibitionRepositoryImpl implements CustomExhibitionRepositor
                                     exhibition.id,
                                     exhibition.posterImageUrl,
                                     exhibition.description,
+                                    exhibition.backgroundColor,
                                     exhibition.likesCount,
                                     JPAExpressions.selectOne()
                                             .from(exhibitionLikes)
                                             .where(eqLikesUserId(userId).and(exhibitionLikes.exhibition.eq(exhibition)))
-                                            .exists().as("isLiked"),
+                                            .exists().as("isLikes"),
                                     exhibition.commentCount
                             )
                     )
@@ -51,8 +52,9 @@ public class CustomExhibitionRepositoryImpl implements CustomExhibitionRepositor
                                     exhibition.id,
                                     exhibition.posterImageUrl,
                                     exhibition.description,
+                                    exhibition.backgroundColor,
                                     exhibition.likesCount,
-                                    Expressions.asBoolean(false).as("isLiked"),
+                                    Expressions.asBoolean(false).as("isLikes"),
                                     exhibition.commentCount
                             )
                     )
@@ -73,7 +75,7 @@ public class CustomExhibitionRepositoryImpl implements CustomExhibitionRepositor
                                     JPAExpressions.selectOne()
                                             .from(exhibitionLikes)
                                             .where(eqLikesUserId(userId).and(exhibitionLikes.exhibition.eq(exhibition)))
-                                            .exists().as("isLiked")
+                                            .exists().as("isLikes")
                             )
                     )
                     .from(exhibition)
@@ -84,7 +86,7 @@ public class CustomExhibitionRepositoryImpl implements CustomExhibitionRepositor
                     .select(
                             Projections.constructor(ExhibitionWithLikes.class,
                                     exhibition,
-                                    Expressions.asBoolean(false).as("isLiked")
+                                    Expressions.asBoolean(false).as("isLikes")
                             )
                     )
                     .from(exhibition)
@@ -106,14 +108,17 @@ public class CustomExhibitionRepositoryImpl implements CustomExhibitionRepositor
                 .fetch();
         return result;
     }
+
     private BooleanBuilder eqExhibitionId(Long exhibitionId){
         if (exhibitionId == null)
             return new BooleanBuilder();
         return new BooleanBuilder(exhibition.id.eq(exhibitionId));
     }
+
     private BooleanBuilder eqLikesUserId(Long userId){
         if (userId == null)
             return new BooleanBuilder();
         return new BooleanBuilder(exhibitionLikes.user.id.eq(userId));
     }
+
 }

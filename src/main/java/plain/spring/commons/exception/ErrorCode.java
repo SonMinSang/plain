@@ -15,6 +15,8 @@ public enum ErrorCode {
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "인증에 실패 했습니다."),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다"),
 
+    BLOCKED_USER(HttpStatus.UNAUTHORIZED, "차단된 유저입니다."),
+
     ART_NOT_FOUND(HttpStatus.NOT_FOUND, "제품을 찾을 수 없습니다."),
 
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 사용자를 찾을 수 없습니다."),

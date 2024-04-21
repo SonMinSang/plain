@@ -5,5 +5,5 @@ import org.springframework.data.domain.Slice;
 import plain.spring.user.domain.User;
 
 public interface CustomUserRepository {
-    Slice<User> findAllArtistsByQueryAndCategory(String query, String category, Pageable pageable);
+    Slice<User> findAllArtistsByQueryAndCategory(String userId, String query, String category, Pageable pageable);
 }

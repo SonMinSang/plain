@@ -18,6 +18,8 @@ public class QUser extends EntityPathBase<User> {
 
     private static final long serialVersionUID = 674451151L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QUser user = new QUser("user");
 
     public final ListPath<plain.spring.art.domain.Art, plain.spring.art.domain.QArt> arts = this.<plain.spring.art.domain.Art, plain.spring.art.domain.QArt>createList("arts", plain.spring.art.domain.Art.class, plain.spring.art.domain.QArt.class, PathInits.DIRECT2);
@@ -44,18 +46,29 @@ public class QUser extends EntityPathBase<User> {
 
     public final ListPath<plain.spring.userjob.domain.UserJob, plain.spring.userjob.domain.QUserJob> userJobs = this.<plain.spring.userjob.domain.UserJob, plain.spring.userjob.domain.QUserJob>createList("userJobs", plain.spring.userjob.domain.UserJob.class, plain.spring.userjob.domain.QUserJob.class, PathInits.DIRECT2);
 
+    public final plain.spring.usersetting.QUserSetting userSetting;
+
     public final ListPath<plain.spring.usertag.domain.UserTag, plain.spring.usertag.domain.QUserTag> userTags = this.<plain.spring.usertag.domain.UserTag, plain.spring.usertag.domain.QUserTag>createList("userTags", plain.spring.usertag.domain.UserTag.class, plain.spring.usertag.domain.QUserTag.class, PathInits.DIRECT2);
 
     public QUser(String variable) {
-        super(User.class, forVariable(variable));
+        this(User.class, forVariable(variable), INITS);
     }
 
     public QUser(Path<? extends User> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QUser(PathMetadata metadata) {
-        super(User.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QUser(PathMetadata metadata, PathInits inits) {
+        this(User.class, metadata, inits);
+    }
+
+    public QUser(Class<? extends User> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.userSetting = inits.isInitialized("userSetting") ? new plain.spring.usersetting.QUserSetting(forProperty("userSetting"), inits.get("userSetting")) : null;
     }
 
 }

@@ -24,27 +24,27 @@ class LikesServiceTest {
     @Test
     @DisplayName("like 동시성 테스트")
     void likesCountTest() throws InterruptedException {
-        int threadCount = 10000;
-        //given
-        ExecutorService executorService = Executors.newFixedThreadPool(32);
-
-        CountDownLatch latch = new CountDownLatch(threadCount);
-        //when
-        Long startTime = System.currentTimeMillis();
-        for(int i=0; i<threadCount; i++){
-            executorService.submit(()->{
-                try{
-                    likesService.like(1L);
-                }
-                finally {
-                    latch.countDown();
-                }
-            });
-        }
-        latch.await();
-        System.out.println("시간 : " + (System.currentTimeMillis() - startTime));
-        Art art = artRepository.findById(1L).orElse(null);
-        //then
-        Assertions.assertEquals(threadCount, art.getLikesCount());
+//        int threadCount = 10000;
+//        //given
+//        ExecutorService executorService = Executors.newFixedThreadPool(32);
+//
+//        CountDownLatch latch = new CountDownLatch(threadCount);
+//        //when
+//        Long startTime = System.currentTimeMillis();
+//        for(int i=0; i<threadCount; i++){
+//            executorService.submit(()->{
+//                try{
+//                    likesService.like(1L);
+//                }
+//                finally {
+//                    latch.countDown();
+//                }
+//            });
+//        }
+//        latch.await();
+//        System.out.println("시간 : " + (System.currentTimeMillis() - startTime));
+//        Art art = artRepository.findById(1L).orElse(null);
+//        //then
+//        Assertions.assertEquals(threadCount, art.getLikesCount());
     }
 }

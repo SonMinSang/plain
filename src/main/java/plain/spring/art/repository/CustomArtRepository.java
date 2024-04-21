@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import plain.spring.art.domain.Art;
 import plain.spring.art.dto.ArtWithFollowAndLikes;
 import plain.spring.art.dto.ArtWithLikes;
+import plain.spring.tag.domain.Tag;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,6 @@ public interface CustomArtRepository {
 
     Optional<ArtWithFollowAndLikes> findArtByIdWithFollowAndLikes(Long artId, Long userId);
 
-    List<Art> findSimilarArts(List<String> tags, Long artId);
+    List<Art> findSimilarArts(List<Tag> tags, Long artId);
 
 }

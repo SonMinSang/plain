@@ -1,6 +1,7 @@
 package plain.spring.likes.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import plain.spring.art.domain.Art;
@@ -15,4 +16,9 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     Optional<Likes> findLikesByUserAndArt(User user, Art art);
     @Query("SELECT l FROM Likes l JOIN FETCH l.art a JOIN FETCH a.artist WHERE l.user.id = :userId")
     List<Likes> findLikesWithArtByUserId(@Param("userId") Long userId);
+
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("DELETE FROM Likes l WHERE l.user.id = :userId")
+    void deleteLikesByUserId(@Param("userId") Long userId);
 }

@@ -20,6 +20,7 @@ public class ExhibitionInfo {
     private Long id;
     private String name;
     private String englishName;
+    private String backgroundColor;
     private String posterImageUrl;
     private String category;
     private String description;
@@ -31,6 +32,7 @@ public class ExhibitionInfo {
         this.id = exhibition.getId();
         this.name = exhibition.getName();
         this.englishName = exhibition.getEnglishName();
+        this.backgroundColor = exhibition.getBackgroundColor();
         this.posterImageUrl = exhibition.getPosterImageUrl();
         this.description = exhibition.getDescription();
         this.artCount = exhibition.getArtCount();

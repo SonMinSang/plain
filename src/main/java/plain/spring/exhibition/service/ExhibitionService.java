@@ -3,6 +3,8 @@ package plain.spring.exhibition.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import plain.spring.commons.exception.CustomException;
+import plain.spring.commons.exception.ErrorCode;
 import plain.spring.commons.util.SecurityUtil;
 import plain.spring.exhibition.domain.Exhibition;
 import plain.spring.exhibition.dto.ExhibitionDetailResponse;
@@ -30,9 +32,9 @@ public class ExhibitionService {
             userId = Long.parseLong(id);
         }
         List<ExhibitionSummary> exhibitions = exhibitionRepository.findAllAvailableExhibition(userId);
-
         return exhibitions;
     }
+
     public ExhibitionDetailResponse getExhibitionDetail(Long exhibitionId) {
         String id = SecurityUtil.getId().orElse(null);
         ExhibitionDetailResponse result;
@@ -44,17 +46,14 @@ public class ExhibitionService {
         else {
             exhibition = exhibitionRepository.findExhibitionWithLikes(exhibitionId, Long.parseLong(id)).orElseThrow();
             List<Long> userIds = exhibition.getExhibition().getArtists().stream().map(e -> e.getId()).collect(Collectors.toList());
-            HashSet<Long> followingIds = new HashSet<Long>(userIds);
+            HashSet<Long> followingIds = new HashSet(userIds);
             result = new ExhibitionDetailResponse(exhibition, followingIds);
-
         }
         return result;
     }
+
     public ExhibitionInfo getExhibitionInfo(Long exhibitionId){
-        Exhibition exhibition = exhibitionRepository.findByIdAvailable(exhibitionId).orElseThrow();
+        Exhibition exhibition = exhibitionRepository.findByIdAvailable(exhibitionId).orElseThrow(() -> new CustomException(ErrorCode.EXHIBITION_NOT_FOUND));
         return new ExhibitionInfo(exhibition);
-
     }
-
-
 }

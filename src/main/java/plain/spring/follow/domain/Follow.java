@@ -5,7 +5,15 @@ import lombok.*;
 import plain.spring.user.domain.User;
 
 @Entity
-@Table(name = "follow")
+@Table(name = "follows",
+        uniqueConstraints= {
+                @UniqueConstraint(
+                        name = "follow_unique",
+                        columnNames = {
+                                "follow_id",
+                                "follower_id"
+                        }
+                )})
 @Getter
 @Builder
 @AllArgsConstructor

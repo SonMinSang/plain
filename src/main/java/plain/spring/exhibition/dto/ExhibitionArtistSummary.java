@@ -20,6 +20,12 @@ public class ExhibitionArtistSummary {
     @Schema(description = "유저 닉네임")
     private String nickname;
     private String job;
+
+    @Schema(description = "email 주소")
+    private String email;
+    @Schema(description = "카카오톡 오픈 채팅 url")
+    private String openChatUrl;
+
     public ExhibitionArtistSummary(User user){
         this.id = user.getId();
         this.profileImageUrl = user.getProfileImageUrl();
@@ -28,6 +34,10 @@ public class ExhibitionArtistSummary {
             this.job = "";
         else {
             this.job = user.getUserJobs().get(0).getJob().getName();
+        }
+        if (!user.getUserSetting().isBlockRequest()){
+            this.email = user.getEmail();
+            this.openChatUrl = user.getOpenChatUrl();
         }
     }
 

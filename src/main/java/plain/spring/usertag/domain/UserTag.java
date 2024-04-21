@@ -6,7 +6,7 @@ import plain.spring.tag.domain.Tag;
 import plain.spring.user.domain.User;
 
 @Entity
-@Table(name = "user_tag")
+@Table(name = "user_tags")
 @Getter
 @Builder
 @AllArgsConstructor

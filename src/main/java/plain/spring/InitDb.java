@@ -35,6 +35,8 @@ import plain.spring.user.domain.User;
 import plain.spring.user.repository.UserRepository;
 import plain.spring.userjob.domain.UserJob;
 import plain.spring.userjob.repository.UserJobRepository;
+import plain.spring.usersetting.UserSetting;
+import plain.spring.usersetting.UserSettingRepository;
 import plain.spring.usertag.domain.UserTag;
 import plain.spring.usertag.repository.UserTagRepository;
 
@@ -49,8 +51,8 @@ public class InitDb {
 
     @PostConstruct
     public void init(){
-        initService.tag();
-        initService.userInit1();
+//        initService.tag();
+//        initService.userInit1();
     }
 
     @Component
@@ -58,6 +60,7 @@ public class InitDb {
     @RequiredArgsConstructor
     static class InitService {
         private final UserRepository userRepository;
+        private final UserSettingRepository userSettingRepository;
         private final UserTagRepository userTagRepository;
         private final JobRepository jobRepository;
         private final UserJobRepository userJobRepository;
@@ -67,7 +70,6 @@ public class InitDb {
         private final ArtImageRepository artImageRepository;
         private final CommentRepository commentRepository;
         private final ThumbnailImageRepository thumbnailImageRepository;
-
         private final ExhibitionRepository exhibitionRepository;
         private final ExhibitionArtRepository exhibitionArtRepository;
         private final ExhibitionArtThumbnailImageRepository exhibitionArtThumbnailImageRepository;
@@ -92,11 +94,23 @@ public class InitDb {
 
         }
         public void userInit1(){
+            UserSetting userSetting1 = new UserSetting();
+            userSetting1.setBlockRequest(false);
+            UserSetting userSetting2 = new UserSetting();
+            userSetting2.setBlockRequest(false);
+            UserSetting userSetting3 = new UserSetting();
+            userSetting3.setBlockRequest(false);
+
+            userSettingRepository.save(userSetting1);
+            userSettingRepository.save(userSetting2);
+            userSettingRepository.save(userSetting3);
+
             User user1 = User.builder()
                     .nickname("방태림")
                     .email("sms7624@gmail.com")
                     .followedCount(10)
-                    .deviceToken("fvVC1fsKNUwppiTKf_2F1M:APA91bHA-QMSMCUxQHIGFmRHlueb_LeC-fzPTMy30XGizsgJJ_spvNW2S1ZUz_BTlBqWpGCduBfa6zD9Hv_ow30Nx5njyhnErbHWXMRckAVoYTG9wR8gpk_CggO3xlQv3h3npPneZ7T2")
+                    .userSetting(userSetting1)
+                    .deviceToken("eMGjgF8-WURNkqIVeIlHgb:APA91bGbkGlfIL4iw8vqOoZKdXCp8GYdLxQlpT_8l3Ho-_cMvg9FSVuSTT8NkJYEdJod3LBH9SqTuPxhWtXVS7MXDwQwawThhyf6TleBDF28SkIsgW5jd00mXiFfkEqooB2TAgyStP7v")
                     .profileImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%B0%A9%ED%83%9C%EB%A6%BC_%ED%94%84%EB%A1%9C%ED%95%84.png")
                     .backgroundImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%B0%A9%ED%83%9C%EB%A6%BC_%EB%B0%B0%EA%B2%BD.png")
                     .build();
@@ -105,11 +119,37 @@ public class InitDb {
                     .nickname("김민지")
                     .email("sms7624@gmail.com")
                     .followedCount(9)
+                    .userSetting(userSetting2)
                     .profileImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EA%B9%80%EB%AF%BC%EC%A7%80_%ED%94%84%EB%A1%9C%ED%95%84.png")
-                    .deviceToken("fvVC1fsKNUwppiTKf_2F1M:APA91bHA-QMSMCUxQHIGFmRHlueb_LeC-fzPTMy30XGizsgJJ_spvNW2S1ZUz_BTlBqWpGCduBfa6zD9Hv_ow30Nx5njyhnErbHWXMRckAVoYTG9wR8gpk_CggO3xlQv3h3npPneZ7T2")
+                    .deviceToken("eMGjgF8-WURNkqIVeIlHgb:APA91bGbkGlfIL4iw8vqOoZKdXCp8GYdLxQlpT_8l3Ho-_cMvg9FSVuSTT8NkJYEdJod3LBH9SqTuPxhWtXVS7MXDwQwawThhyf6TleBDF28SkIsgW5jd00mXiFfkEqooB2TAgyStP7v")
                     .backgroundImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EA%B9%80%EB%AF%BC%EC%A7%80_%EB%B0%B0%EA%B2%BD.png")
                     .build();
             userRepository.save(user2);
+            User user3 = User.builder()
+                    .nickname("손민상")
+                    .email("sms7624@gmail.com")
+                    .followedCount(0)
+                    .userSetting(userSetting3)
+                    .profileImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EA%B9%80%EB%AF%BC%EC%A7%80_%ED%94%84%EB%A1%9C%ED%95%84.png")
+                    .deviceToken("eMGjgF8-WURNkqIVeIlHgb:APA91bGbkGlfIL4iw8vqOoZKdXCp8GYdLxQlpT_8l3Ho-_cMvg9FSVuSTT8NkJYEdJod3LBH9SqTuPxhWtXVS7MXDwQwawThhyf6TleBDF28SkIsgW5jd00mXiFfkEqooB2TAgyStP7v")
+                    .backgroundImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EA%B9%80%EB%AF%BC%EC%A7%80_%EB%B0%B0%EA%B2%BD.png")
+                    .build();
+            userRepository.save(user3);
+            for (int i = 0; i < 100; i++){
+                UserSetting userSetting = new UserSetting();
+                userSettingRepository.save(userSetting);
+                User user = User.builder()
+                        .nickname("Paging" + i)
+                        .email("sms7624@gmail.com")
+                        .followedCount(0)
+                        .userSetting(userSetting)
+                        .profileImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EA%B9%80%EB%AF%BC%EC%A7%80_%ED%94%84%EB%A1%9C%ED%95%84.png")
+                        .deviceToken("eMGjgF8-WURNkqIVeIlHgb:APA91bGbkGlfIL4iw8vqOoZKdXCp8GYdLxQlpT_8l3Ho-_cMvg9FSVuSTT8NkJYEdJod3LBH9SqTuPxhWtXVS7MXDwQwawThhyf6TleBDF28SkIsgW5jd00mXiFfkEqooB2TAgyStP7v")
+                        .backgroundImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EA%B9%80%EB%AF%BC%EC%A7%80_%EB%B0%B0%EA%B2%BD.png")
+                        .build();
+                userRepository.save(user);
+            }
+
             Tag tag1 = tagRepository.findByName("감성").orElse(null);
             Tag tag2 = tagRepository.findByName("힙한").orElse(null);
             Tag tag3 = tagRepository.findByName("레트로").orElse(null);
@@ -164,12 +204,15 @@ public class InitDb {
             userTagRepository.save(userTag4);
             userTagRepository.save(userTag5);
             userTagRepository.save(userTag6);
+            List<Art> arts = new ArrayList<>();
+            List<ThumbnailImage> thumbnailImages = new ArrayList<>();
             Art art1 = Art.builder()
                     .name("Filling Cabinet")
                     .artist(user1)
                     .likesCount(0)
                     .category("제품")
                     .price(100000)
+                    .forSale(true)
                     .description("판재의 특징을 살린 오브젝트 디자인’ 프로제트에 맞춰 진행한 사무용품 카비넷’입니다. 효율성과 실용성에 치중하여 다소 복잡한 외관을 지닌 서류정리함을 심플한 형태를 가진 판재를 이용하여 단순하고 간결하게 리디자인하였습니다.")
                     .build();
             Art art2 = Art.builder()
@@ -178,10 +221,71 @@ public class InitDb {
                     .likesCount(9)
                     .category("제품")
                     .price(1000000)
+                    .forSale(true)
                     .description("몰입북")
                     .build();
+            Art art3 = Art.builder()
+                    .name("other")
+                    .artist(user2)
+                    .likesCount(9)
+                    .category("제품")
+                    .price(1000000)
+                    .forSale(false)
+                    .description("제품3")
+                    .build();
+            for (int i = 0; i < 50; i++){
+                Art art4 = Art.builder()
+                        .name("Filling Cabinet" + i)
+                        .artist(user1)
+                        .likesCount(0)
+                        .category("제품")
+                        .price(100000)
+                        .forSale(true)
+                        .description("판재의 특징을 살린 오브젝트 디자인’ 프로제트에 맞춰 진행한 사무용품 카비넷’입니다. 효율성과 실용성에 치중하여 다소 복잡한 외관을 지닌 서류정리함을 심플한 형태를 가진 판재를 이용하여 단순하고 간결하게 리디자인하였습니다.")
+                        .build();
+                Art art5 = Art.builder()
+                        .name("몰입북" + i)
+                        .artist(user1)
+                        .likesCount(9)
+                        .category("제품")
+                        .price(1000000)
+                        .forSale(true)
+                        .description("몰입북")
+                        .build();
+                Art art6 = Art.builder()
+                        .name("other" + i)
+                        .artist(user2)
+                        .likesCount(9)
+                        .category("제품")
+                        .price(1000000)
+                        .forSale(false)
+                        .description("제품3")
+                        .build();
+                arts.add(art4);
+                arts.add(art5);
+                arts.add(art6);
+                ThumbnailImage thumbnailImage1 = ThumbnailImage.builder()
+                        .art(art4)
+                        .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_1.png")
+                        .build();
+                ThumbnailImage thumbnailImage2 = ThumbnailImage.builder()
+                        .art(art5)
+                        .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_2.png")
+                        .build();
+                ThumbnailImage thumbnailImage3 = ThumbnailImage.builder()
+                        .art(art6)
+                        .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
+                        .build();
+                thumbnailImages.add(thumbnailImage1);
+                thumbnailImages.add(thumbnailImage2);
+                thumbnailImages.add(thumbnailImage3);
+
+            }
+            thumbnailImageRepository.saveAll(thumbnailImages);
             artRepository.save(art1);
             artRepository.save(art2);
+            artRepository.save(art3);
+            artRepository.saveAll(arts);
             ArtTag artTag1 = ArtTag.builder()
                     .art(art1)
                     .tag(tag7)
@@ -206,12 +310,27 @@ public class InitDb {
                     .art(art2)
                     .tag(tag7)
                     .build();
+            ArtTag artTag7 = ArtTag.builder()
+                    .art(art3)
+                    .tag(tag1)
+                    .build();
+            ArtTag artTag8 = ArtTag.builder()
+                    .art(art3)
+                    .tag(tag2)
+                    .build();
+            ArtTag artTag9 = ArtTag.builder()
+                    .art(art3)
+                    .tag(tag3)
+                    .build();
             artTagRepository.save(artTag1);
             artTagRepository.save(artTag2);
             artTagRepository.save(artTag3);
             artTagRepository.save(artTag4);
             artTagRepository.save(artTag5);
             artTagRepository.save(artTag6);
+            artTagRepository.save(artTag7);
+            artTagRepository.save(artTag8);
+            artTagRepository.save(artTag9);
             ThumbnailImage thumbnailImage1 = ThumbnailImage.builder()
                     .art(art1)
                     .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_1.png")
@@ -224,9 +343,28 @@ public class InitDb {
                     .art(art2)
                     .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
                     .build();
+            ThumbnailImage thumbnailImage4 = ThumbnailImage.builder()
+                    .art(art2)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/product/87ccfd11-ffdc-4df2-b329-0d35d9e22a3aart_2024-01-07+11%3A32%3A20+%2B0000_00.jpeg")
+                    .build();
+            ThumbnailImage thumbnailImage5 = ThumbnailImage.builder()
+                    .art(art3)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_1.png")
+                    .build();
+            ThumbnailImage thumbnailImage6 = ThumbnailImage.builder()
+                    .art(art3)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_2.png")
+                    .build();
             thumbnailImageRepository.save(thumbnailImage1);
             thumbnailImageRepository.save(thumbnailImage2);
+            art1.getThumbnailImageUrls().add(thumbnailImage1);
+            art1.getThumbnailImageUrls().add(thumbnailImage2);
             thumbnailImageRepository.save(thumbnailImage3);
+            thumbnailImageRepository.save(thumbnailImage4);
+            art2.getThumbnailImageUrls().add(thumbnailImage3);
+            art2.getThumbnailImageUrls().add(thumbnailImage4);
+            thumbnailImageRepository.save(thumbnailImage5);
+            thumbnailImageRepository.save(thumbnailImage6);
             ArtImage artImage1 = ArtImage.builder()
                     .art(art1)
                     .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_1.png")
@@ -245,9 +383,16 @@ public class InitDb {
                     .width(165)
                     .height(165)
                     .build();
+            ArtImage artImage4 = ArtImage.builder()
+                    .art(art3)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/product/87ccfd11-ffdc-4df2-b329-0d35d9e22a3aart_2024-01-07+11%3A32%3A20+%2B0000_00.jpeg")
+                    .width(242)
+                    .height(161)
+                    .build();
             artImageRepository.save(artImage1);
             artImageRepository.save(artImage2);
             artImageRepository.save(artImage3);
+            artImageRepository.save(artImage4);
             Comment comment1 = Comment.builder()
                     .art(art1)
                     .user(user1)
@@ -276,6 +421,7 @@ public class InitDb {
                     .posterImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_1.png")
                     .name("서울과학기술대학교 산업디자인학과 졸업 전시회")
                     .englishName("Seoultech. Univ. Industrial Exhibition")
+                    .backgroundColor("F2E5DF")
                     .category("공예")
                     .description("본 전시는 지난 120년동안 한국의 기대수명에 대한 '데이터'를 '디자인'과 접목하여 긍정적인 사회적 변화상을 시각적으로 표현한 공공디자인 전시입니다.공공디자인 전시입니다.공공디자인 전시입니다.공공디자인 전시입니다.공공디자인 전시입니다.")
                     .status("available")
@@ -286,27 +432,68 @@ public class InitDb {
                     .posterImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_2.png")
                     .name("전시회2")
                     .englishName("Exhibition2")
+                    .backgroundColor("E2DFF2")
                     .category("제품")
                     .status("available")
+                    .artCount("11점")
+                    .estimatedDuration("11분")
+                    .build();
+            Exhibition exhibition3 = Exhibition.builder()
+                    .posterImageUrl("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_2.png")
+                    .name("전시회3")
+                    .englishName("Exhibition3")
+                    .backgroundColor("E2DFDF")
+                    .category("제품")
+                    .status("available")
+                    .artCount("12점")
+                    .estimatedDuration("12분")
                     .build();
             exhibitionRepository.save(exhibition1);
             exhibitionRepository.save(exhibition2);
+            exhibitionRepository.save(exhibition3);
             ExhibitionArt exhibitionArt1 = ExhibitionArt.builder()
                     .exhibition(exhibition1)
+                    .name("Chair")
+                    .description("‘판재의 특징을 살린 오브젝트 디자인’ 프로제트에 맞춰 진행한 사무용품 카비넷’입니다. 효율성과 실용성에 치중하여 다소 복잡한 외관을 지닌 서류정리함을 심플한 형태를 가진 판재를 이용하여 단순하고 간결하게 리디자인하였습니다.")
                     .artist(user1)
                     .build();
             ExhibitionArt exhibitionArt2 = ExhibitionArt.builder()
                     .exhibition(exhibition1)
+                    .name("오렌지 푹신 의자")
+                    .description("‘판재의 특징을 살린 오브젝트 디자인’ 프로제트에 맞춰 진행한 사무용품 카비넷’입니다. 효율성과 실용성에 치중하여 다소 복잡한 외관을 지닌 서류정리함을 심플한 형태를 가진 판재를 이용하여 단순하고 간결하게 리디자인하였습니다.")
                     .artist(user2)
                     .build();
             ExhibitionArt exhibitionArt3 = ExhibitionArt.builder()
-                    .exhibition(exhibition2)
+                    .exhibition(exhibition1)
+                    .name("그림")
+                    .description("그림그림그림")
                     .artist(user2)
                     .build();
-
+            ExhibitionArt exhibitionArt4 = ExhibitionArt.builder()
+                    .exhibition(exhibition2)
+                    .name("Chair")
+                    .description("‘판재의 특징을 살린 오브젝트 디자인’ 프로제트에 맞춰 진행한 사무용품 카비넷’입니다. 효율성과 실용성에 치중하여 다소 복잡한 외관을 지닌 서류정리함을 심플한 형태를 가진 판재를 이용하여 단순하고 간결하게 리디자인하였습니다.")
+                    .artist(user1)
+                    .build();
+            ExhibitionArt exhibitionArt5 = ExhibitionArt.builder()
+                    .exhibition(exhibition2)
+                    .name("오렌지 푹신 의자")
+                    .description("‘판재의 특징을 살린 오브젝트 디자인’ 프로제트에 맞춰 진행한 사무용품 카비넷’입니다. 효율성과 실용성에 치중하여 다소 복잡한 외관을 지닌 서류정리함을 심플한 형태를 가진 판재를 이용하여 단순하고 간결하게 리디자인하였습니다.")
+                    .artist(user2)
+                    .build();
+            ExhibitionArt exhibitionArt6 = ExhibitionArt.builder()
+                    .exhibition(exhibition2)
+                    .name("그림")
+                    .description("그림그림그림")
+                    .artist(user2)
+                    .build();
             exhibitionArtRepository.save(exhibitionArt1);
             exhibitionArtRepository.save(exhibitionArt2);
             exhibitionArtRepository.save(exhibitionArt3);
+            exhibitionArtRepository.save(exhibitionArt4);
+            exhibitionArtRepository.save(exhibitionArt5);
+            exhibitionArtRepository.save(exhibitionArt6);
+
             ExhibitionArtThumbnailImage exhibitionArtThumbnailImage1 = ExhibitionArtThumbnailImage.builder()
                     .exhibitionArt(exhibitionArt1)
                     .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_1.png")
@@ -315,14 +502,88 @@ public class InitDb {
                     .exhibitionArt(exhibitionArt1)
                     .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_2.png")
                     .build();
-
             ExhibitionArtThumbnailImage exhibitionArtThumbnailImage3 = ExhibitionArtThumbnailImage.builder()
                     .exhibitionArt(exhibitionArt1)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage4 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt2)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_1.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage5 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt2)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_2.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage6 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt2)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage7 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt3)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_1.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage8 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt3)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_2.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage9 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt3)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage10 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt4)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_1.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage11 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt4)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_2.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage12 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt4)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage13 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt5)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_1.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage14 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt5)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_2.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage15 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt5)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage16 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt6)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_1.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage17 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt6)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_thumbnail_2.png")
+                    .build();
+            ExhibitionArtThumbnailImage exhibitionArtThumbnailImage18 = ExhibitionArtThumbnailImage.builder()
+                    .exhibitionArt(exhibitionArt6)
                     .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
                     .build();
             exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage1);
             exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage2);
             exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage3);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage4);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage5);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage6);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage7);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage8);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage9);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage10);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage11);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage12);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage13);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage14);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage15);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage16);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage17);
+            exhibitionArtThumbnailImageRepository.save(exhibitionArtThumbnailImage18);
             ExhibitionArtist exhibitionArtist1 = ExhibitionArtist.builder()
                     .exhibition(exhibition1)
                     .user(user1)
@@ -331,8 +592,20 @@ public class InitDb {
                     .exhibition(exhibition1)
                     .user(user2)
                     .build();
+            ExhibitionArtist exhibitionArtist3 = ExhibitionArtist.builder()
+                    .exhibition(exhibition2)
+                    .user(user1)
+                    .build();
+            ExhibitionArtist exhibitionArtist4 = ExhibitionArtist.builder()
+                    .exhibition(exhibition2)
+                    .user(user2)
+                    .build();
             exhibitionArtistRepository.save(exhibitionArtist1);
             exhibitionArtistRepository.save(exhibitionArtist2);
+            exhibitionArtistRepository.save(exhibitionArtist3);
+            exhibitionArtistRepository.save(exhibitionArtist4);
+
+
 
             ExhibitionArtImage exhibitionArtImage1 = ExhibitionArtImage.builder()
                     .exhibitionArt(exhibitionArt1)
@@ -352,9 +625,114 @@ public class InitDb {
                     .width(165)
                     .height(165)
                     .build();
+            ExhibitionArtImage exhibitionArtImage4 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt2)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_1.png")
+                    .width(390)
+                    .height(174)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage5 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt2)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_2.png")
+                    .width(390)
+                    .height(268)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage6 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt2)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
+                    .width(165)
+                    .height(165)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage7 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt3)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_1.png")
+                    .width(390)
+                    .height(174)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage8 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt3)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_2.png")
+                    .width(390)
+                    .height(268)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage9 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt3)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
+                    .width(165)
+                    .height(165)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage10 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt4)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_1.png")
+                    .width(390)
+                    .height(174)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage11 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt4)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_2.png")
+                    .width(390)
+                    .height(268)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage12 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt4)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
+                    .width(165)
+                    .height(165)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage13 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt5)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_1.png")
+                    .width(390)
+                    .height(174)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage14 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt5)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_2.png")
+                    .width(390)
+                    .height(268)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage15 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt5)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
+                    .width(165)
+                    .height(165)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage16 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt6)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_1.png")
+                    .width(390)
+                    .height(174)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage17 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt6)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/filling_cabinet_detail_2.png")
+                    .width(390)
+                    .height(268)
+                    .build();
+            ExhibitionArtImage exhibitionArtImage18 = ExhibitionArtImage.builder()
+                    .exhibitionArt(exhibitionArt6)
+                    .url("https://novart-bucket.s3.ap-northeast-2.amazonaws.com/plain/%EB%AA%B0%EC%9E%85%EB%B6%81.png")
+                    .width(165)
+                    .height(165)
+                    .build();
             exhibitionArtImageRepository.save(exhibitionArtImage1);
             exhibitionArtImageRepository.save(exhibitionArtImage2);
             exhibitionArtImageRepository.save(exhibitionArtImage3);
+            exhibitionArtImageRepository.save(exhibitionArtImage4);
+            exhibitionArtImageRepository.save(exhibitionArtImage5);
+            exhibitionArtImageRepository.save(exhibitionArtImage6);
+            exhibitionArtImageRepository.save(exhibitionArtImage7);
+            exhibitionArtImageRepository.save(exhibitionArtImage8);
+            exhibitionArtImageRepository.save(exhibitionArtImage9);
+            exhibitionArtImageRepository.save(exhibitionArtImage10);
+            exhibitionArtImageRepository.save(exhibitionArtImage11);
+            exhibitionArtImageRepository.save(exhibitionArtImage12);
+            exhibitionArtImageRepository.save(exhibitionArtImage13);
+            exhibitionArtImageRepository.save(exhibitionArtImage14);
+            exhibitionArtImageRepository.save(exhibitionArtImage15);
+            exhibitionArtImageRepository.save(exhibitionArtImage16);
+            exhibitionArtImageRepository.save(exhibitionArtImage17);
+            exhibitionArtImageRepository.save(exhibitionArtImage18);
             for (int i = 0; i < 20; i++) {
                 Notification notification = Notification.builder()
                         .receiverId(1L)

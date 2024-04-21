@@ -26,6 +26,8 @@ public class QExhibition extends EntityPathBase<Exhibition> {
 
     public final ListPath<plain.spring.exhibitionart.domain.ExhibitionArt, plain.spring.exhibitionart.domain.QExhibitionArt> arts = this.<plain.spring.exhibitionart.domain.ExhibitionArt, plain.spring.exhibitionart.domain.QExhibitionArt>createList("arts", plain.spring.exhibitionart.domain.ExhibitionArt.class, plain.spring.exhibitionart.domain.QExhibitionArt.class, PathInits.DIRECT2);
 
+    public final StringPath backgroundColor = createString("backgroundColor");
+
     public final StringPath category = createString("category");
 
     public final NumberPath<Integer> commentCount = createNumber("commentCount", Integer.class);

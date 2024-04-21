@@ -20,6 +20,8 @@ import plain.spring.user.domain.Role;
 import plain.spring.user.domain.User;
 import plain.spring.user.repository.UserRepository;
 import plain.spring.user.dto.AuthToken;
+import plain.spring.usersetting.UserSetting;
+import plain.spring.usersetting.UserSettingRepository;
 
 import java.io.IOException;
 
@@ -28,6 +30,7 @@ import java.io.IOException;
 @Transactional
 public class AuthService {
     private final UserRepository userRepository;
+    private final UserSettingRepository userSettingRepository;
     private final PolicyRepository policyRepository;
     private final TokenProvider tokenProvider;
 
@@ -39,9 +42,12 @@ public class AuthService {
         User user = userRepository.findOneByOauthId(user_id).orElse(null);
         if (user == null){
             String nickname = findOwnNickname();
+            UserSetting userSetting = new UserSetting();
+            userSettingRepository.save(userSetting);
             User newUser = User.builder()
                     .oauthId(user_id)
                     .nickname(nickname)
+                    .userSetting(userSetting)
                     .role(Role.ROLE_USER)
                     .build();
             userRepository.save(newUser);
@@ -100,8 +106,8 @@ public class AuthService {
         for (GrantedAuthority authority : authentication.getAuthorities()) {
             role.append(authority.getAuthority());
         }
+        System.out.println(role);
         User user = userRepository.findById(Long.valueOf(SecurityUtil.getId().orElseThrow())).orElseThrow();
-        if(!user.getRole().name().equals(role)){}
-        return tokenProvider.createToken(user.getId(), user.getRole());
+        return tokenProvider.createToken(user.getId(), Role.ROLE_USER);
     }
 }

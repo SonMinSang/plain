@@ -24,14 +24,14 @@ public class ArtSummary {
     public ArtSummary(Art art){
         this.id = art.getId();
         this.name = art.getName();
-        this.thumbnailImageUrl = art.getThumbNailImageUrls().get(0).getUrl();
+        this.thumbnailImageUrl = art.getThumbnailImageUrls().get(0).getUrl();
         this.nickname = art.getArtist().getNickname();
     }
 
     public ArtSummary(Art art, String nickname){
         this.id = art.getId();
         this.name = art.getName();
-        this.thumbnailImageUrl = art.getThumbNailImageUrls().get(0).getUrl();
+        this.thumbnailImageUrl = art.getThumbnailImageUrls().get(0).getUrl();
         this.nickname = nickname;
     }
 }

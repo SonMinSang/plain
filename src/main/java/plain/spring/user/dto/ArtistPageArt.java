@@ -23,12 +23,12 @@ public class ArtistPageArt {
     public ArtistPageArt(Art art){
         this.id = art.getId();
         this.name = art.getName();
-        this.thumbnailImageUrl = art.getThumbNailImageUrls().get(0).getUrl();
+        this.thumbnailImageUrl = art.getThumbnailImageUrls().get(0).getUrl();
     }
     public ArtistPageArt(Art art, String nickname){
         this.id = art.getId();
         this.name = art.getName();
-        this.thumbnailImageUrl = art.getThumbNailImageUrls().get(0).getUrl();
+        this.thumbnailImageUrl = art.getThumbnailImageUrls().get(0).getUrl();
         this.nickname = nickname;
 
     }

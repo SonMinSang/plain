@@ -37,7 +37,10 @@ public class LikesService {
         Art art = artRepository.findByIdWithArtist(artId).orElseThrow();
 
         Likes likes = likesRepository.findLikesByUserAndArt(user, art).orElse(null);
-        if (likes == null){
+        if (likes != null) {
+            System.out.println("not null");
+        }
+        if (likes == null) {
             likesRepository.save(Likes.builder()
                     .user(user)
                     .art(art)
@@ -52,15 +55,16 @@ public class LikesService {
                 .art(art)
                 .build();
         notificationRepository.save(notification);
-        FCMNotification response = new FCMNotification(notification);
+        if (art.getArtist().getDeviceToken() != null) {
+            FCMNotification response = new FCMNotification(notification);
+            FCMNotificationRequest request = FCMNotificationRequest.builder()
+                    .deviceToken(art.getArtist().getDeviceToken())
+                    .body(notification.getBody())
+                    .data(objectMapper.registerModule(new JavaTimeModule()).convertValue(response, Map.class))
+                    .build();
+            fcmNotificationService.sendNotificationByToken(request);
+        }
 
-        FCMNotificationRequest request = FCMNotificationRequest.builder()
-                .deviceToken(art.getArtist().getDeviceToken())
-                .image(user.getProfileImageUrl())
-                .body(notification.getBody())
-                .data(objectMapper.registerModule(new JavaTimeModule()).convertValue(response, Map.class))
-                .build();
-        fcmNotificationService.sendNotificationByToken(request);
     }
 
 

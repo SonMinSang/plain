@@ -8,7 +8,7 @@ import plain.spring.art.domain.Art;
 import plain.spring.commons.util.BaseTimeEntity;
 import plain.spring.user.domain.User;
 @Entity
-@Table(name = "comment")
+@Table(name = "comments")
 @Getter
 @Builder
 @AllArgsConstructor

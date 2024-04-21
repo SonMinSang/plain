@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long>, CustomUserRepository {
     Optional<User> findOneByOauthId(String oauthId);
 
-    @Query("SELECT u FROM User u JOIN FETCH u.arts WHERE u.id = :id")
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.arts WHERE u.id = :id")
     Optional<User> findOneWithArtsById(@Param("id") Long id);
     Boolean existsOneByNickname(String nickname);
 }

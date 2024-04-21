@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import plain.spring.user.domain.User;
 
 @Entity
-@Table(name = "query")
+@Table(name = "searches")
 @Getter
 @Builder
 @AllArgsConstructor
@@ -16,7 +16,7 @@ import plain.spring.user.domain.User;
 public class Search {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "query_id")
+    @Column(name = "search_id")
     private Long id;
 
     @ManyToOne(fetch =  FetchType.LAZY)

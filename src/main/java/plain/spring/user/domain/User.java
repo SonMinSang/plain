@@ -5,6 +5,7 @@ import lombok.*;
 import plain.spring.art.domain.Art;
 import plain.spring.user.dto.UserInfoEdit;
 import plain.spring.userjob.domain.UserJob;
+import plain.spring.usersetting.UserSetting;
 import plain.spring.usertag.domain.UserTag;
 
 import java.util.ArrayList;
@@ -30,11 +31,18 @@ public class User {
     private String backgroundImageUrl;
     private String email;
     private String openChatUrl;
+
     @Builder.Default
     private int followedCount = 0;
+
+    @OneToOne
+    @JoinColumn(name = "user_setting_id")
+    private UserSetting userSetting;
+
     @Builder.Default
     @OneToMany(mappedBy = "artist")
     private List<Art> arts = new ArrayList<>();
+
     @Setter
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserTag> userTags = new ArrayList<>();

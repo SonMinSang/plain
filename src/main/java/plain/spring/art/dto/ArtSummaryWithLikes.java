@@ -29,7 +29,7 @@ public class ArtSummaryWithLikes {
     public ArtSummaryWithLikes(ArtWithLikes artWithLikes){
         this.id = artWithLikes.getArt().getId();
         this.name = artWithLikes.getArt().getName();
-        this.thumbnailImageUrl = artWithLikes.getArt().getThumbNailImageUrls().stream().map(a -> new ImageUrl(a)).collect(Collectors.toList());
+        this.thumbnailImageUrl = artWithLikes.getArt().getThumbnailImageUrls().stream().map(a -> new ImageUrl(a)).collect(Collectors.toList());
         this.nickname = artWithLikes.getArt().getArtist().getNickname();
         this.category = artWithLikes.getArt().getCategory();
         this.isLikes = artWithLikes.isLikes();

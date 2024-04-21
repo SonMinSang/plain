@@ -50,7 +50,7 @@ public class QPolicy extends EntityPathBase<Policy> {
 
     public QPolicy(Class<? extends Policy> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.user = inits.isInitialized("user") ? new plain.spring.user.domain.QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new plain.spring.user.domain.QUser(forProperty("user"), inits.get("user")) : null;
     }
 
 }

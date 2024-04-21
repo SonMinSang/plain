@@ -36,6 +36,7 @@ public class ExhibitionDetailResponse {
         this.name = exhibition.getExhibition().getName();
         this.englishName = exhibition.getExhibition().getEnglishName();
         this.posterImageUrl = exhibition.getExhibition().getPosterImageUrl();
+        this.category = exhibition.getExhibition().getCategory();
         this.description = exhibition.getExhibition().getDescription();
         this.artCount = exhibition.getExhibition().getArtCount();
         this.estimatedDuration = exhibition.getExhibition().getEstimatedDuration();
@@ -50,6 +51,7 @@ public class ExhibitionDetailResponse {
         this.name = exhibition.getExhibition().getName();
         this.englishName = exhibition.getExhibition().getEnglishName();
         this.posterImageUrl = exhibition.getExhibition().getPosterImageUrl();
+        this.category = exhibition.getExhibition().getCategory();
         this.description = exhibition.getExhibition().getDescription();
         this.artCount = exhibition.getExhibition().getArtCount();
         this.estimatedDuration = exhibition.getExhibition().getEstimatedDuration();

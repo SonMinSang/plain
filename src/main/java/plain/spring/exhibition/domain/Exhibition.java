@@ -27,6 +27,7 @@ public class Exhibition {
 
     @Builder.Default
     private String description = "";
+    private String backgroundColor;
 
     @Builder.Default
     @OneToMany(mappedBy = "exhibition")

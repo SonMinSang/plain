@@ -61,7 +61,7 @@ public class QNotification extends EntityPathBase<Notification> {
     public QNotification(Class<? extends Notification> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.art = inits.isInitialized("art") ? new plain.spring.art.domain.QArt(forProperty("art"), inits.get("art")) : null;
-        this.sender = inits.isInitialized("sender") ? new plain.spring.user.domain.QUser(forProperty("sender")) : null;
+        this.sender = inits.isInitialized("sender") ? new plain.spring.user.domain.QUser(forProperty("sender"), inits.get("sender")) : null;
     }
 
 }

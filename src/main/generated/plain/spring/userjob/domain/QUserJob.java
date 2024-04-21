@@ -47,7 +47,7 @@ public class QUserJob extends EntityPathBase<UserJob> {
     public QUserJob(Class<? extends UserJob> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.job = inits.isInitialized("job") ? new plain.spring.job.domain.QJob(forProperty("job")) : null;
-        this.user = inits.isInitialized("user") ? new plain.spring.user.domain.QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new plain.spring.user.domain.QUser(forProperty("user"), inits.get("user")) : null;
     }
 
 }

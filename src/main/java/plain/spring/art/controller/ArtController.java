@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import plain.spring.art.dto.ArtDetail;
@@ -38,8 +37,8 @@ public class ArtController {
             }
     )
     @GetMapping
-    public ResponseEntity<Slice<ArtSummaryWithLikes>> getHomeArts(@RequestParam(required = false, value = "category") String category, @RequestParam(required = false, value = "lastId") Long id){
-        Slice<ArtSummaryWithLikes> results = artService.getHomeArtsByCategory(category, id);
+    public ResponseEntity<List<ArtSummaryWithLikes>> getHomeArts(@RequestParam(required = false, value = "category") String category, @RequestParam(required = false, value = "lastId") Long id){
+        List<ArtSummaryWithLikes> results = artService.getHomeArtsByCategory(category, id);
         return ResponseEntity.ok(results);
     }
 
@@ -86,6 +85,23 @@ public class ArtController {
         return ResponseEntity.ok(result);
     }
 
+
+
+    @Operation(summary = "작품 삭제",
+            parameters = {
+                    @Parameter(in = HEADER, name = "Authorization",
+                            required = false, description = "Bearer {jwt token}"),
+                    @Parameter(in = PATH, name = "artId",
+                            required = true, description = "원하는 작품의 id")
+
+            }
+    )
+    @DeleteMapping("/{artId}")
+    public ResponseEntity<ArtDetail> deleteArtDetail(@PathVariable("artId") Long artId){
+        artService.deleteArtById(artId);
+        return ResponseEntity.ok().build();
+    }
+
     @Operation(summary = "작품 상세 페이지 작가의 다른 작품",
             parameters = {
                     @Parameter(in = PATH, name = "artistId",
@@ -95,6 +111,8 @@ public class ArtController {
 
             }
     )
+
+
 
     @GetMapping("/{artId}/artist/{artistId}/others")
     public ResponseEntity<List<ArtSummary>> getArtistOtherArts(@PathVariable("artistId") Long artistId, @PathVariable("artId") Long artId){
@@ -110,8 +128,8 @@ public class ArtController {
             }
     )
     @GetMapping("/{artId}/recommends")
-    public ResponseEntity<List<ArtSummary>> getSimilarArts(@RequestBody List<String> tags, @PathVariable(value = "artId") Long artId){
-        List<ArtSummary> result = artService.getSimilarOtherArts(tags, artId);
+    public ResponseEntity<List<ArtSummary>> getSimilarArts(@PathVariable(value = "artId") Long artId){
+        List<ArtSummary> result = artService.getSimilarOtherArts(artId);
         return ResponseEntity.ok(result);
     }
 }

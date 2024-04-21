@@ -14,7 +14,6 @@ import java.util.Optional;
 
 public interface ArtRepository extends JpaRepository<Art, Long>, CustomArtRepository{
 
-//    @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Art> findById(Long artId);
 
     @Modifying
@@ -25,7 +24,7 @@ public interface ArtRepository extends JpaRepository<Art, Long>, CustomArtReposi
     @Query("update Art a set a.likesCount = a.likesCount - 1 where a.id = :artId")
     void decreaseLikesCount(@Param("artId") Long artId);
 
-    @Query("SELECT a FROM Art a JOIN FETCH a.artist WHERE a.likesCount > 0 order by RAND() limit 2")
+    @Query("SELECT a FROM Art a JOIN FETCH a.artist JOIN FETCH a.thumbnailImageUrls WHERE a.likesCount > 0 order by RAND() limit 2")
     List<Art> findAllOrderByLikesCountDescWithArtist();
 
     @Query("SELECT a FROM Art a JOIN FETCH a.artist WHERE a.id = :artId")
@@ -33,4 +32,8 @@ public interface ArtRepository extends JpaRepository<Art, Long>, CustomArtReposi
 
     @Query("SELECT a FROM Art a WHERE a.artist.id = :artistId and a.id != :artId order by RAND() LIMIT 5")
     List<Art> findArtistsOtherArts(@Param("artistId") Long artistId, @Param("artId") Long artId);
+
+    @Query("DELETE FROM Art a WHERE a.artist.id = :userId")
+    void deleteAllArtsByUserId(@Param("userId") Long userId);
+
 }

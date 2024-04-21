@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import plain.spring.S3.domain.File;
+import plain.spring.S3.domain.Files;
 import plain.spring.S3.dto.PresignedUrl;
 import plain.spring.commons.exception.CustomException;
 import plain.spring.commons.util.SecurityUtil;
@@ -28,20 +29,18 @@ public class S3Service {
     private final UserRepository userRepository;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
+    private String bucketName = "https://plain-image-bucket.s3.ap-northeast-2.amazonaws.com/";
 
-    @Value("${cloud.aws.cdn}")
-    private String cdn;
-
-    public List<PresignedUrl> findPresignedUrlsAndImageUrls(List<File> files){
+    public List<PresignedUrl> findPresignedUrlsAndImageUrls(Files files){
         String userId = SecurityUtil.getId().orElseThrow(() -> new CustomException(NOT_MEMBER));
         User user = userRepository.findById(Long.parseLong(userId)).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         List<PresignedUrl> presignedUrls = new ArrayList<>();
-        for (File file : files){
+        for (File file : files.getFiles()){
             String filename = createFileName(file.getFilename());
             String presignedUrl = createPresignedUrl(file.getCategory(), filename);
             presignedUrls.add(PresignedUrl.builder()
                             .presignedUrl(presignedUrl)
-                            .imageUrl(cdn.concat(filename))
+                            .imageUrl(bucketName.concat(file.getCategory()).concat("/").concat(filename))
                             .build());
         }
         return presignedUrls;
@@ -54,14 +53,14 @@ public class S3Service {
         String presignedUrl = createPresignedUrl(file.getCategory(), filename);
         return PresignedUrl.builder()
                     .presignedUrl(presignedUrl)
-                    .imageUrl(cdn.concat(filename))
+                    .imageUrl(bucketName.concat(file.getCategory()).concat("/").concat(filename))
                     .build();
     }
 
     public String createPresignedUrl(String category, String filename) {
-        Date expiration = new Date(System.currentTimeMillis() + 3600000); // 1시간 동안 유효한 URL 생성
+        Date expiration = new Date(System.currentTimeMillis() + 60000);
 
-        GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucket,"/".concat(category).concat("/").concat(filename))
+        GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucket,"".concat(category).concat("/").concat(filename))
                 .withMethod(HttpMethod.PUT)
                 .withExpiration(expiration);
 
@@ -70,8 +69,6 @@ public class S3Service {
     }
 
     private String createFileName(String fileName) {
-
         return UUID.randomUUID().toString().concat(fileName);
     }
-
 }

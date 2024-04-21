@@ -34,8 +34,12 @@ public class Art extends BaseTimeEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User artist;
     private String name;
+
+    private boolean forSale;
     private long price;
     private String category;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
     @Builder.Default
     private int likesCount = 0;
@@ -43,7 +47,7 @@ public class Art extends BaseTimeEntity {
     @Setter
     @Builder.Default
     @OneToMany(mappedBy = "art")
-    private List<ThumbnailImage> thumbNailImageUrls = new ArrayList<>();
+    private List<ThumbnailImage> thumbnailImageUrls = new ArrayList<>();
 
     @Setter
     @Builder.Default
@@ -62,19 +66,10 @@ public class Art extends BaseTimeEntity {
     @Version
     private Long version;
 
-    public void likes(){
-
-        likesCount++;
-    }
-    public void unlikes(){
-        if (likesCount <= 0){
-        }
-        likesCount--;
-    }
-
     public void update(ArtPost artPost){
         this.name = artPost.getName();
         this.price = artPost.getPrice();
+        this.forSale = artPost.isForSale();
         this.category = artPost.getCategory();
         this.description = artPost.getDescription();
     }

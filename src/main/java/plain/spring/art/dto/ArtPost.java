@@ -15,7 +15,8 @@ public class ArtPost {
     private long price;
     private String category;
     private String description;
-    private List<String> thumbNailImageUrls = new ArrayList<>();
+    private boolean forSale;
+    private List<String> thumbnailImageUrls = new ArrayList<>();
     private List<String> artImageUrls = new ArrayList<>();
     private List<String> artTagList = new ArrayList<>();
 

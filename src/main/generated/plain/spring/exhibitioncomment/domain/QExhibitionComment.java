@@ -57,7 +57,7 @@ public class QExhibitionComment extends EntityPathBase<ExhibitionComment> {
     public QExhibitionComment(Class<? extends ExhibitionComment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.exhibition = inits.isInitialized("exhibition") ? new plain.spring.exhibition.domain.QExhibition(forProperty("exhibition")) : null;
-        this.user = inits.isInitialized("user") ? new plain.spring.user.domain.QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new plain.spring.user.domain.QUser(forProperty("user"), inits.get("user")) : null;
     }
 
 }

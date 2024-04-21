@@ -38,7 +38,7 @@ class CommentRepositoryTest {
                 .content("ccccc")
                 .build();
         commentRepository.save(comment);
-        List<Comment> commentList = commentRepository.findAllWithUserByArt(art);
+        List<Comment> commentList = commentRepository.findAllWithUserByArt(art, null);
         System.out.println(commentList.get(0).getContent());
     }
 }

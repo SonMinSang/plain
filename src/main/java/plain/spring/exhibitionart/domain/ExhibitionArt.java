@@ -24,7 +24,7 @@ public class ExhibitionArt {
 
     private String name;
 
-
+    @Column(columnDefinition = "TEXT")
     @Builder.Default
     private String description = "";
 

@@ -13,16 +13,22 @@ import org.springframework.stereotype.Repository;
 import plain.spring.art.domain.Art;
 import plain.spring.art.dto.ArtWithFollowAndLikes;
 import plain.spring.art.dto.ArtWithLikes;
+import plain.spring.tag.domain.Tag;
+import plain.spring.user.domain.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static plain.spring.art.domain.QArt.art;
 import static plain.spring.arttag.domain.QArtTag.artTag;
+import static plain.spring.block.QBlock.block;
 import static plain.spring.follow.domain.QFollow.follow;
 import static plain.spring.likes.domain.QLikes.likes;
 import static plain.spring.tag.domain.QTag.tag;
 import static plain.spring.user.domain.QUser.user;
+import static plain.spring.usersetting.QUserSetting.userSetting;
 
 @Repository
 @RequiredArgsConstructor
@@ -43,6 +49,19 @@ public class CustomArtRepositoryImpl implements CustomArtRepository {
                     .limit(20)
                     .fetch();
         } else {
+            List<User> blocked =  queryFactory.selectFrom(block)
+                    .where(block.blocker.id.eq(userId))
+                    .fetch()
+                    .stream()
+                    .flatMap(block -> Stream.of(block.getBlocked()))
+                    .collect(Collectors.toList());
+            List<User> blocker =  queryFactory.selectFrom(block)
+                    .where(block.blocked.id.eq(userId))
+                    .fetch()
+                    .stream()
+                    .flatMap(block -> Stream.of(block.getBlocker()))
+                    .collect(Collectors.toList());
+
             results = queryFactory
                     .select(Projections.constructor(ArtWithLikes.class,
                             art,
@@ -50,13 +69,14 @@ public class CustomArtRepositoryImpl implements CustomArtRepository {
                     .from(art)
                     .leftJoin(art.artist, user).fetchJoin()
                     .leftJoin(likes).on(likes.art.eq(art).and(likes.user.id.eq(userId)))
-                    .where(eqCategory(category), ltLastId(id))
+                    .where(eqCategory(category), ltLastId(id), notBlocked(blocker), notBlocked(blocked))
                     .orderBy(art.id.desc())
                     .limit(20)
                     .fetch();
         }
         return results;
     }
+
     public Optional<ArtWithFollowAndLikes> findArtByIdWithFollowAndLikes(Long artId, Long userId){
         Optional<ArtWithFollowAndLikes> results;
         if (userId != null){
@@ -67,7 +87,7 @@ public class CustomArtRepositoryImpl implements CustomArtRepository {
                                     .from(likes)
                                     .where(eqLikesArtId(artId)
                                             .and(eqLikesUserId(userId)))
-                                    .exists().as("isLiked"),
+                                    .exists().as("isLikes"),
                             JPAExpressions.selectOne()
                                     .from(follow)
                                     .where(eqFollowerUserId(userId)
@@ -75,22 +95,23 @@ public class CustomArtRepositoryImpl implements CustomArtRepository {
                                     .exists().as("isFollowing")))
                     .from(art)
                     .leftJoin(art.artist, user).fetchJoin()
+                    .leftJoin(user.userSetting, userSetting).fetchJoin()
                     .where(eqId(artId))
                     .fetchOne());
         } else {
             results = Optional.ofNullable(queryFactory
                     .select(Projections.fields(ArtWithFollowAndLikes.class,
                             art,
-                            Expressions.asBoolean(false).as("isLiked"), // isLiked 필드를 false로 설정
+                            Expressions.asBoolean(false).as("isLikes"),
                             Expressions.asBoolean(false).as("isFollowing")))
                     .from(art)
                     .leftJoin(art.artist, user).fetchJoin()
+                    .leftJoin(user.userSetting, userSetting).fetchJoin()
                     .where(eqId(artId))
                     .fetchOne());
         }
         return results;
     }
-
 
     public Slice<Art> findArtsByQueryAndCategory(String query, String category, Pageable pageable){
         List<Art> results = queryFactory
@@ -110,9 +131,7 @@ public class CustomArtRepositoryImpl implements CustomArtRepository {
         return new SliceImpl<>(results, pageable, hasNext);
     }
 
-
-
-    public List<Art> findSimilarArts(List<String> tags, Long artId){
+    public List<Art> findSimilarArts(List<Tag> tags, Long artId){
         List<Art> results = queryFactory
                 .selectFrom(art)
                 .leftJoin(art.artTagList, artTag)
@@ -123,13 +142,17 @@ public class CustomArtRepositoryImpl implements CustomArtRepository {
 
         return results;
     }
+
+    private BooleanBuilder notBlocked(List<User> users){
+        return new BooleanBuilder(art.artist.notIn(users));
+    }
+
     private BooleanBuilder eqId(Long artId){
         return new BooleanBuilder(art.id.eq(artId));
     }
 
-    private BooleanBuilder inTags(List<String> tags){
-
-        return new BooleanBuilder(tag.name.in(tags));
+    private BooleanBuilder inTags(List<Tag> tags){
+        return new BooleanBuilder(tag.in(tags));
     }
 
     private BooleanBuilder eqFollowerUserId(Long userId){
@@ -141,12 +164,12 @@ public class CustomArtRepositoryImpl implements CustomArtRepository {
     private BooleanBuilder eqFollowingUserId(){
         return new BooleanBuilder(follow.following.id.eq(art.artist.id));
     }
+
     private BooleanBuilder eqLikesArtId(Long artId){
         if (artId == null)
             return new BooleanBuilder();
         return new BooleanBuilder(likes.art.id.eq(artId));
     }
-
 
     private BooleanBuilder eqLikesUserId(Long userId){
         if (userId == null)
@@ -170,14 +193,16 @@ public class CustomArtRepositoryImpl implements CustomArtRepository {
         if (query == null || query.isBlank()) {
             return new BooleanBuilder();
         }
-        return new BooleanBuilder(art.name.contains(query));
+        return new BooleanBuilder(art.name.toUpperCase().contains(query.toUpperCase()));
     }
+
     private BooleanBuilder eqTag(String query) {
         if (query == null || query.isBlank()) {
             return new BooleanBuilder();
         }
         return new BooleanBuilder(tag.name.eq(query));
     }
+
     private BooleanBuilder eqCategory(String category) {
         if (category == null || category.isBlank()) {
             return new BooleanBuilder();

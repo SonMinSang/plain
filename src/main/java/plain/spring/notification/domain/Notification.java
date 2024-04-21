@@ -9,6 +9,8 @@ import plain.spring.art.domain.Art;
 import plain.spring.commons.util.BaseTimeEntity;
 import plain.spring.user.domain.User;
 
+import static plain.spring.notification.domain.NotificationType.EXHIBITION_COMMENT;
+
 @Entity
 @Table(name = "notification")
 @Getter
@@ -50,6 +52,10 @@ public class Notification extends BaseTimeEntity {
                 return commentBody();
             case REGISTER:
                 return registerBody();
+            case EXHIBITION_LIKES :
+                return exhibitionLikesBody();
+            case EXHIBITION_COMMENT :
+                return exhibitionCommentBody();
             default:
                 return "";
         }
@@ -73,6 +79,17 @@ public class Notification extends BaseTimeEntity {
     public String registerBody(){
         StringBuilder sb = new StringBuilder();
         sb.append(this.sender.getNickname()).append("님이 '").append(this.art.getName()).append("'을 등록했어요");
+        return sb.toString();
+    }
+    public String exhibitionLikesBody() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.sender.getNickname());
+        return sb.toString();
+    }
+
+    public String exhibitionCommentBody() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.sender.getNickname());
         return sb.toString();
     }
 }

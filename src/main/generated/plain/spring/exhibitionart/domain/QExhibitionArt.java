@@ -54,7 +54,7 @@ public class QExhibitionArt extends EntityPathBase<ExhibitionArt> {
 
     public QExhibitionArt(Class<? extends ExhibitionArt> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.artist = inits.isInitialized("artist") ? new plain.spring.user.domain.QUser(forProperty("artist")) : null;
+        this.artist = inits.isInitialized("artist") ? new plain.spring.user.domain.QUser(forProperty("artist"), inits.get("artist")) : null;
         this.exhibition = inits.isInitialized("exhibition") ? new plain.spring.exhibition.domain.QExhibition(forProperty("exhibition")) : null;
     }
 

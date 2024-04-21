@@ -12,7 +12,6 @@ import plain.spring.exhibitioncomment.domain.ExhibitionComment;
 import plain.spring.exhibitioncomment.repository.ExhibitionCommentRepository;
 import plain.spring.user.domain.User;
 import plain.spring.user.repository.UserRepository;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
 public class ExhibitionCommentService {
     private final ExhibitionCommentRepository exhibitionCommentRepository;
     private final ExhibitionRepository exhibitionRepository;
-
     private final UserRepository userRepository;
     public List<CommentDisplay> getAllCommentsByExhibitionId(Long exhibitionId){
         Exhibition exhibition = exhibitionRepository.findById(exhibitionId).orElseThrow();

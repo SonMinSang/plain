@@ -20,7 +20,6 @@ public class FCMNotificationService {
         Notification notification = Notification.builder()
                 .setTitle(request.getTitle())
                 .setBody(request.getBody())
-                .setImage(request.getImage())
                 .build();
         Message message = Message.builder()
                 .setToken(request.getDeviceToken())
@@ -29,6 +28,7 @@ public class FCMNotificationService {
                 .build();
         try {
             firebaseMessaging.send(message);
+            System.out.println("알림 성공");
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
         }
@@ -39,7 +39,6 @@ public class FCMNotificationService {
             Notification notification = Notification.builder()
                     .setTitle(request.getTitle())
                     .setBody(request.getBody())
-                    .setImage(request.getImage())
                     .build();
             Message message = Message.builder()
                     .setToken(request.getDeviceToken())

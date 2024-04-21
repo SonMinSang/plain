@@ -14,17 +14,17 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArtDetail {
-
     private Long id;
     private String name;
     private String description;
+
+    private String category;
     private long price;
+    private boolean forSale;
     private List<String> thumbnailImageUrls = new ArrayList<>();
     private List<String> artImageUrls = new ArrayList<>();
     private List<String> artTagList = new ArrayList<>();
-
     private boolean isLikes;
-
     private ArtistFollow artist;
     private LocalDateTime createdAt;
 
@@ -32,26 +32,15 @@ public class ArtDetail {
         this.id = art.getArt().getId();
         this.name = art.getArt().getName();
         this.description = art.getArt().getDescription();
+        this.category = art.getArt().getCategory();
         this.price = art.getArt().getPrice();
-        this.thumbnailImageUrls = art.getArt().getThumbNailImageUrls().stream().map(t -> t.getUrl()).collect(Collectors.toList());
+        this.forSale = art.getArt().isForSale();
+        this.thumbnailImageUrls = art.getArt().getThumbnailImageUrls().stream().map(t -> t.getUrl()).collect(Collectors.toList());
         this.artImageUrls = art.getArt().getArtImageUrls().stream().map(i -> i.getUrl()).collect(Collectors.toList());
         this.artTagList = art.getArt().getArtTagList().stream().map(t -> t.getTag().getName()).collect(Collectors.toList());
         this.isLikes = art.isLikes();
         this.createdAt = art.getArt().getCreatedAt();
         this.artist = new ArtistFollow(art.getArt().getArtist(), art.isFollowing());
-    }
 
-    public ArtDetail(Art art){
-        this.id = art.getId();
-        this.name = art.getName();
-        this.description = art.getDescription();
-        this.price = art.getPrice();
-        this.thumbnailImageUrls = art.getThumbNailImageUrls().stream().map(t -> t.getUrl()).collect(Collectors.toList());
-        this.artImageUrls = art.getArtImageUrls().stream().map(i -> i.getUrl()).collect(Collectors.toList());
-        this.artTagList = art.getArtTagList().stream().map(t -> t.getTag().getName()).collect(Collectors.toList());
-        this.isLikes = false;
-        this.createdAt = art.getCreatedAt();
-        this.artist = new ArtistFollow(art.getArtist(), false);
     }
-
 }

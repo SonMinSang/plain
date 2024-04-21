@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import plain.spring.notification.dto.NotificationResponse;
 import plain.spring.notification.service.NotificationService;
-import plain.spring.notification.dto.DeviceToken;
 
 import java.util.List;
 

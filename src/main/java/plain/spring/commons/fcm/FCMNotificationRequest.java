@@ -18,8 +18,5 @@ public class FCMNotificationRequest {
     private String deviceToken;
     private String title;
     private String body;
-    private String image;
     private Map<String, String> data;
-
-
 }

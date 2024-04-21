@@ -37,6 +37,8 @@ public class QArt extends EntityPathBase<Art> {
 
     public final StringPath description = createString("description");
 
+    public final BooleanPath forSale = createBoolean("forSale");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final ListPath<plain.spring.likes.domain.Likes, plain.spring.likes.domain.QLikes> likes = this.<plain.spring.likes.domain.Likes, plain.spring.likes.domain.QLikes>createList("likes", plain.spring.likes.domain.Likes.class, plain.spring.likes.domain.QLikes.class, PathInits.DIRECT2);
@@ -47,7 +49,7 @@ public class QArt extends EntityPathBase<Art> {
 
     public final NumberPath<Long> price = createNumber("price", Long.class);
 
-    public final ListPath<plain.spring.thumbnailimage.domain.ThumbnailImage, plain.spring.thumbnailimage.domain.QThumbnailImage> thumbNailImageUrls = this.<plain.spring.thumbnailimage.domain.ThumbnailImage, plain.spring.thumbnailimage.domain.QThumbnailImage>createList("thumbNailImageUrls", plain.spring.thumbnailimage.domain.ThumbnailImage.class, plain.spring.thumbnailimage.domain.QThumbnailImage.class, PathInits.DIRECT2);
+    public final ListPath<plain.spring.thumbnailimage.domain.ThumbnailImage, plain.spring.thumbnailimage.domain.QThumbnailImage> thumbnailImageUrls = this.<plain.spring.thumbnailimage.domain.ThumbnailImage, plain.spring.thumbnailimage.domain.QThumbnailImage>createList("thumbnailImageUrls", plain.spring.thumbnailimage.domain.ThumbnailImage.class, plain.spring.thumbnailimage.domain.QThumbnailImage.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
@@ -72,7 +74,7 @@ public class QArt extends EntityPathBase<Art> {
 
     public QArt(Class<? extends Art> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.artist = inits.isInitialized("artist") ? new plain.spring.user.domain.QUser(forProperty("artist")) : null;
+        this.artist = inits.isInitialized("artist") ? new plain.spring.user.domain.QUser(forProperty("artist"), inits.get("artist")) : null;
     }
 
 }

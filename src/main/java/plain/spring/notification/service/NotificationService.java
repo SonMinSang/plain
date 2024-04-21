@@ -22,7 +22,7 @@ public class NotificationService {
 
     public List<NotificationResponse> findAllNotifications(Long lastId){
         String userId = SecurityUtil.getId().orElseThrow(() -> new CustomException(UNAUTHORIZED));
-        if (lastId == 0L){
+        if (lastId == null || lastId == 0L){
             lastId = null;
         }
         List<Notification> notifications = notificationRepository.findAllNotificationsByUserId(Long.parseLong(userId), lastId);
